@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@theme {
+  --font-barlow: 'Barlow', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+
+  --color-bg-base: #030712;
+  --color-bg-sidebar: #040916;
+  --color-bg-surface: #060d1f;
+  --color-bg-card: #081126;
+  --color-bg-card-hover: #0b1733;
+  --color-bg-input: #040a17;
+  
+  --color-brand-blue: #00BFFF;
+  --color-brand-blue-light: #33CFFF;
+  --color-brand-blue-dark: #0088cc;
+  
+  --color-border-subtle: rgba(0, 191, 255, 0.1);
+  --color-border-medium: rgba(0, 191, 255, 0.22);
+  --color-border-bright: rgba(0, 191, 255, 0.45);
+  
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+}
+
+body {
+  background-color: #030712;
+  color: #ffffff;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Webkit Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #030712;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 191, 255, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 191, 255, 0.5);
+}
+
+/* Card Glow & Border Effects matching screenshots */
+.card-glow {
+  background-color: #081126;
+  border: 1px solid rgba(0, 191, 255, 0.12);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(0, 191, 255, 0.1);
+  transition: all 0.25s ease;
+}
+
+.card-glow:hover {
+  border-color: rgba(0, 191, 255, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 191, 255, 0.08), inset 0 1px 0 rgba(0, 191, 255, 0.2);
+}
+
+/* Logo Circular Glow */
+.logo-glow {
+  box-shadow: 0 0 25px rgba(0, 191, 255, 0.45), inset 0 0 10px rgba(0, 191, 255, 0.2);
+}
+
+/* Brand Button Styles */
+.btn-brand {
+  background: linear-gradient(135deg, #00BFFF 0%, #0077CC 100%);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.35);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-brand:hover {
+  background: linear-gradient(135deg, #33CFFF 0%, #0099DD 100%);
+  box-shadow: 0 0 30px rgba(0, 191, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+/* Active Nav Item */
+.nav-item-active {
+  background: linear-gradient(90deg, rgba(0, 191, 255, 0.15) 0%, rgba(0, 191, 255, 0.03) 100%);
+  border-left: 3px solid #00BFFF;
+  color: #00BFFF;
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.15);
+}
+
+.nav-item-inactive {
+  border-left: 3px solid transparent;
+  color: #94A3B8;
+}
+.nav-item-inactive:hover {
+  background: rgba(0, 191, 255, 0.06);
+  color: #00BFFF;
+}
+
+/* Text glow */
+.text-glow {
+  text-shadow: 0 0 12px rgba(0, 191, 255, 0.5);
+}
+
+/* Custom Input Focus Ring */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #00BFFF !important;
+  box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.25), 0 0 15px rgba(0, 191, 255, 0.15) !important;
+}
+
+/* Custom Fade in animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
+}
