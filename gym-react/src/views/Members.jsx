@@ -1,12 +1,12 @@
 import PageHeader from "../components/ui/PageHeader";
 import Button from "../components/ui/Button";
-import Modal from "../components/ui/AddMemberModal";
 import DeleteModal from "../components/ui/DeleteModal";
-import { SearchIcon, PlusIcon } from "../components/ui/Icons";
+import { PlusIcon } from "../components/ui/Icons";
 import { memberService } from "../services/memberService";
-import { initialPlans } from "../data/plansData";
 import { useState, useEffect } from "react";
-import AddMemberModal from "../components/ui/AddMemberModal";
+import FormModal from "../components/ui/FormModal";
+import EditMemberModal from "../components/ui/EditMemberModal";
+import ViewDetailsMemberModal from "../components/ui/ViewDetailsMemberModal";
 
 // Eye icon
 function EyeIcon() {
@@ -113,19 +113,12 @@ function EmptyIcon() {
 export default function Members() {
   const [members, setMembers] = useState([]);
   const [memberToDelete, setMemberToDelete] = useState(null);
+  const [memberToEdit, setMemberToEdit] = useState(null);
+  const [memberToView, setMemberToView] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newName, setNewName] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const [newPlan, setNewPlan] = useState(initialPlans[0].name);
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    plan: "",
-  });
 
   useEffect(() => {
     async function loadMembers() {
@@ -135,22 +128,11 @@ export default function Members() {
     loadMembers();
   }, []);
 
-  const handleChange = (event) => {
-    const { name, email, plan, value } = event.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-      [email]: value,
-      [plan]: value,
-    }));
-  };
-
-  const handleAddMember = async (event) => {
-    event.preventDefault();
+  const handleAddMember = async (formData) => {
     const newMember = await memberService.create({
-      name: newName,
-      email: newEmail,
-      plan: newPlan,
+      name: formData.name,
+      email: formData.email,
+      plan: formData.plan,
       status: "Active",
     });
     setMembers([newMember, ...members]);
@@ -158,10 +140,22 @@ export default function Members() {
   };
 
   const handleConfirmDelete = async (id) => {
-    await memberService.delete(memberToDelete.id);
+    await memberService.remove(memberToDelete.id);
     setMembers((prev) =>
       prev.filter((member) => member.id !== memberToDelete.id),
     );
+    setMemberToDelete(null);
+  };
+
+  const handleConfirmEdit = async (formData) => {
+    const updatedMember = await memberService.edit({
+      ...memberToEdit,
+      ...formData,
+    });
+    setMembers((prev) =>
+      prev.map((m) => (m.id === memberToEdit.id ? updatedMember : m)),
+    );
+    setMemberToEdit(null);
   };
 
   const filteredMembers = members.filter((member) => {
@@ -200,67 +194,26 @@ export default function Members() {
         </Button>
       </PageHeader>
 
-      {/* Modal */}
-      <AddMemberModal
+      <FormModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Registrar Nuevo Miembro"
-      >
-        <form onSubmit={handleAddMember} className="space-y-4">
-          <div>
-            <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
-              Nombre Completo
-            </label>
-            <input
-              type="text"
-              value={formData.newName}
-              onChange={handleChange}
-              /* onChange={e => setNewName(e.target.value)} */ required
-              placeholder="Ej. Jennifer Lopez"
-              className="w-full bg-[#040a17] border border-[rgba(0,191,255,0.15)] rounded-lg px-3 py-2 text-sm text-gray-100 focus:outline-none focus:border-brand-blue"
-            />
-          </div>
-          <div>
-            <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
-              Correo Electrónico
-            </label>
-            <input
-              type="email"
-              value={formData.newEmail}
-              onChange={handleChange}
-              /* onChange={e => setNewEmail(e.target.value)} */ required
-              placeholder="Ej. jennifer@gym.com"
-              className="w-full bg-[#040a17] border border-[rgba(0,191,255,0.15)] rounded-lg px-3 py-2 text-sm text-gray-100 focus:outline-none focus:border-brand-blue"
-            />
-          </div>
-          <div>
-            <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
-              Plan de Membresía
-            </label>
-            <select
-              value={formData.newPlan}
-              onChange={
-                handleChange
-              } /* onChange={e => setNewPlan(e.target.value)} */
-              className="w-full bg-[#040a17] border border-[rgba(0,191,255,0.15)] rounded-lg px-3 py-2 text-sm text-gray-100 focus:outline-none focus:border-brand-blue"
-            >
-              {initialPlans.map((p) => (
-                <option key={p.id} value={p.name}>
-                  {p.name} (${p.price}/mes)
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="flex justify-end gap-3 pt-3 border-t border-[rgba(0,191,255,0.1)]">
-            <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
-              Cancelar
-            </Button>
-            <Button type="submit" variant="brand">
-              Registrar
-            </Button>
-          </div>
-        </form>
-      </AddMemberModal>
+        onConfirm={handleAddMember}
+        title=""
+      />
+
+      <ViewDetailsMemberModal
+        isOpen={Boolean(memberToView)}
+        onClose={() => setMemberToView(null)}
+        member={memberToView}
+      />
+
+      <EditMemberModal
+        key={memberToEdit?.id}
+        isOpen={Boolean(memberToEdit)}
+        onClose={() => setMemberToEdit(null)}
+        onConfirm={handleConfirmEdit}
+        member={memberToEdit}
+      />
 
       <DeleteModal
         isOpen={Boolean(memberToDelete)}
@@ -391,10 +344,10 @@ export default function Members() {
                       {/* Detalles: Ver / Editar / Eliminar */}
                       <td className="px-6 py-4 text-neutral-300">
                         <div className="flex items-center justify-center space-x-4">
-                          <ActionIcon onClick={() => {}}>
+                          <ActionIcon onClick={() => {setMemberToView(member)}}>
                             <EyeIcon />
                           </ActionIcon>
-                          <ActionIcon onClick={() => {}}>
+                          <ActionIcon onClick={() => setMemberToEdit(member)}>
                             <PenLineIcon />
                           </ActionIcon>
                           <ActionIcon onClick={() => setMemberToDelete(member)}>

@@ -1,7 +1,11 @@
-import React from "react";
 import Button from "./Button";
 
-export default function DeleteModal({ isOpen, onClose, onConfirm, memberName }) {
+export default function DeleteModal({
+  isOpen,
+  onClose,
+  onConfirm,
+  memberName,
+}) {
   if (!isOpen) return null;
 
   return (
@@ -43,7 +47,8 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, memberName }) 
           ¿Eliminar miembro?
         </h3>
         <h3 className="mb-6 text-xs text-gray-400">
-          ¿Estas seguro que desea eliminar a <span className="text-white font-medium">{memberName}</span>?
+          ¿Estas seguro que desea eliminar a{" "}
+          <span className="text-white font-medium">{memberName}</span>?
         </h3>
 
         {/* Botones de Acción */}
