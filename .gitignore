@@ -1,0 +1,95 @@
+# ==========================================
+# 1. FRONTEND (Node / Vite / React)
+# ==========================================
+# Dependencias instaladas por npm
+node_modules/
+
+# Carpeta de build de producción
+dist/
+dist-ssr/
+
+# Caché interno de Vite
+.vite/
+*/.vite/
+
+# Reportes de pruebas unitarias
+coverage/
+
+# Registros de depuración / logs de gestores de paquetes
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ==========================================
+# 2. BACKEND (Java / Spring Boot / Maven)
+# ==========================================
+# Carpeta de compilación generada por Maven
+target/
+*.class
+
+# Empaquetados ejecutables autogenerados
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Binario del wrapper de Maven (se conservan los scripts mvnw y mvnw.cmd)
+.mvn/wrapper/maven-wrapper.jar
+
+# ==========================================
+# 3. VARIABLES DE ENTORNO Y SECRETOS
+# ==========================================
+# Archivos de variables de entorno con credenciales
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.local
+
+# Excepción: la plantilla de ejemplo sí se versiona
+!.env.example
+
+# ==========================================
+# 4. EDITORES E IDEs (Configuraciones locales)
+# ==========================================
+# Visual Studio Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# IntelliJ IDEA / WebStorm
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Archivos temporales o de backup de editores
+*.sw?
+*~
+*.bak
+*.tmp
+
+# ==========================================
+# 5. SISTEMA OPERATIVO
+# ==========================================
+# Archivos automáticos generados por macOS y Windows
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
