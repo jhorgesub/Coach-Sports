@@ -8,11 +8,11 @@ export default function EditMemberModal({
   onConfirm,
   member,
 }) {
-  const [formData, setFormData] = useState({ name: member?.name || "", email: member?.email || "", plan: member?.plan || ""});
+  const [formData, setFormData] = useState({ name: member?.name || "", email: member?.email || "", plan: member?.plan || "" });
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData((prev) => ({...prev,[name]: value}));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -27,8 +27,11 @@ export default function EditMemberModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop / Fondo oscuro con blur */}
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" />
+
+
       {/* Contenedor del Modal */}
-      <div className="relative bg-[#040a17] border border-[rgba(0,191,255,0.2)] rounded-2xl shadow-xl p-6 max-w-md w-full z-10 animate-fadeIn">
+      <div onClick={onClose}
+        className="relative bg-[#040a17] border border-[rgba(0,191,255,0.2)] rounded-2xl shadow-xl p-6 max-w-md w-full z-10 animate-fadeIn">
         <div className="flex items-center justify-between border-b border-default pb-4 md:pb-5 border-b border-[rgba(0,191,255,0.1)]">
           <h3 className="text-base font-semibold text-gray-100">
             Editar miembro

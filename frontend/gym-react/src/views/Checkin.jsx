@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import PageHeader from '../components/ui/PageHeader';
 
 const initialAttendanceMembers = [
@@ -32,10 +31,10 @@ function generateDays(year, month) {
 }
 
 const MONTHS = [
-  { label: 'Enero 2026',    year: 2026, month: 1 },
-  { label: 'Febrero 2026',  year: 2026, month: 2 },
-  { label: 'Marzo 2026',    year: 2026, month: 3 },
-  { label: 'Agosto 2026',   year: 2026, month: 8 },
+  { label: 'Enero 2026', year: 2026, month: 1 },
+  { label: 'Febrero 2026', year: 2026, month: 2 },
+  { label: 'Marzo 2026', year: 2026, month: 3 },
+  { label: 'Agosto 2026', year: 2026, month: 8 },
 ];
 
 export default function Checkin() {
@@ -231,11 +230,10 @@ export default function Checkin() {
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
-                className={`w-7 h-7 rounded flex items-center justify-center font-bold transition-all cursor-pointer ${
-                  currentPage === page
+                className={`w-7 h-7 rounded flex items-center justify-center font-bold transition-all cursor-pointer ${currentPage === page
                     ? 'bg-brand-blue/15 border border-brand-blue text-brand-blue shadow-[0_0_10px_rgba(0,191,255,0.3)]'
                     : 'text-neutral-400 hover:text-white'
-                }`}
+                  }`}
               >
                 {page}
               </button>

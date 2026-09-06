@@ -7,106 +7,18 @@ import { useState, useEffect } from "react";
 import FormModal from "../components/ui/FormModal";
 import EditMemberModal from "../components/ui/EditMemberModal";
 import ViewDetailsMemberModal from "../components/ui/ViewDetailsMemberModal";
-
-// Eye icon
-function EyeIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  );
-}
-
-// Edit / Pen-Line icon
-function PenLineIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M13 21h8" />
-      <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
-    </svg>
-  );
-}
-
-// Trash icon
-function Trash2Icon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M10 11v6" />
-      <path d="M14 11v6" />
-      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-      <path d="M3 6h18" />
-      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-    </svg>
-  );
-}
+import { Trash2Icon, EyeIcon, EmptyIcon, PenLineIcon } from "../components/ui/Icons";
 
 // Icon with hover color toggle
 function ActionIcon({ children, onClick }) {
-  const [hovered, setHovered] = useState(false);
   return (
-    <span
+    <button
+      type="button"
       onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{ color: hovered ? "#00BFFF" : "#9ca3af" }}
-      className="cursor-pointer transition-colors duration-150"
+      className="p-1 text-gray-400 hover:text-[#00BFFF] transition-colors duration-150 cursor-pointer bg-transparent border-none inline-flex items-center justify-center focus:outline-none"
     >
       {children}
-    </span>
-  );
-}
-
-// Empty state SVG
-function EmptyIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="36"
-      height="36"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="text-neutral-600 mb-1"
-    >
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-    </svg>
+    </button>
   );
 }
 
@@ -135,7 +47,7 @@ export default function Members() {
       plan: formData.plan,
       status: "Active",
     });
-    setMembers([newMember, ...members]);
+    setMembers((prev) => [newMember, ...prev]);
     setIsModalOpen(false);
   };
 
@@ -168,16 +80,6 @@ export default function Members() {
     return matchesSearch && matchesStatus;
   });
 
-  /* const handleAddMember = async (e) => {
-    e.preventDefault();
-    if (!newName || !newEmail) return;
-    const newMember = await memberService.create({ name: newName, email: newEmail, plan: newPlan, status: 'Active' });
-    setMembers([newMember, ...members]);
-    setNewName('');
-    setNewEmail('');
-    setIsModalOpen(false);
-  }; */
-
   return (
     <div className="font-inter">
       <PageHeader
@@ -198,7 +100,7 @@ export default function Members() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleAddMember}
-        title=""
+        title={"Registrar Miembro"}
       />
 
       <ViewDetailsMemberModal
@@ -325,11 +227,10 @@ export default function Members() {
                       {/* Estado */}
                       <td className="px-6 py-4 text-center">
                         <span
-                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                            isExpired
-                              ? "bg-rose-500/10 border border-rose-500/20 text-rose-400"
-                              : "bg-sky-500/10 border border-sky-500/20 text-sky-400"
-                          }`}
+                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${isExpired
+                            ? "bg-rose-500/10 border border-rose-500/20 text-rose-400"
+                            : "bg-sky-500/10 border border-sky-500/20 text-sky-400"
+                            }`}
                         >
                           <svg
                             className="h-1.5 w-1.5 fill-current"
@@ -344,7 +245,7 @@ export default function Members() {
                       {/* Detalles: Ver / Editar / Eliminar */}
                       <td className="px-6 py-4 text-neutral-300">
                         <div className="flex items-center justify-center space-x-4">
-                          <ActionIcon onClick={() => {setMemberToView(member)}}>
+                          <ActionIcon onClick={() => setMemberToView(member)}>
                             <EyeIcon />
                           </ActionIcon>
                           <ActionIcon onClick={() => setMemberToEdit(member)}>

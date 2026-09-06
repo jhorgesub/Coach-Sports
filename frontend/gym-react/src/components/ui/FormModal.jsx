@@ -77,7 +77,9 @@ export default function FormModal({
               Plan
             </label>
             <select
-              value={formData.newPlan}
+              name="plan"
+              value={formData.plan}
+              onChange={handleChange}
               className="w-full bg-[#040a17] border border-[rgba(0,191,255,0.15)] rounded-lg px-3 py-2 text-sm text-gray-100 focus:outline-none focus:border-brand-blue"
             >
               {initialPlans.map((p) => (
