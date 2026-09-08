@@ -1,0 +1,102 @@
+# ============================================================
+# Docker Compose — Coach-Sports Gym Management
+# ============================================================
+# Servicios:
+#   - db        → PostgreSQL 17
+#   - backend   → Spring Boot 4.1.1 / Java 21
+#   - frontend  → React + Vite servido por Nginx
+#
+# Uso:
+#   docker compose up --build        ← Primera vez o cuando hay cambios
+#   docker compose up -d             ← Modo background (detached)
+#   docker compose down              ← Detiene y elimina los contenedores
+#   docker compose down -v           ← También elimina el volumen de la DB
+# ============================================================
+
+services:
+
+  # ----------------------------------------------------------
+  # BASE DE DATOS — PostgreSQL
+  # ----------------------------------------------------------
+  db:
+    image: postgres:17-alpine
+    container_name: coachsports-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      # Volumen persistente: los datos de la DB sobreviven aunque
+      # el contenedor sea eliminado o reiniciado
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      # Exponemos el puerto para poder conectarnos con herramientas
+      # externas como pgAdmin o DBeaver desde la máquina local
+      - "5432:5432"
+    networks:
+      - coachsports-network
+    healthcheck:
+      # Docker espera a que Postgres esté listo antes de arrancar el backend
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  # ----------------------------------------------------------
+  # BACKEND — Spring Boot
+  # ----------------------------------------------------------
+  backend:
+    build:
+      context: ./backend/gym-app
+      dockerfile: Dockerfile
+    container_name: coachsports-backend
+    restart: unless-stopped
+    environment:
+      # Conexión a la DB — usa el nombre del servicio "db" como hostname
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      # Hibernate crea/actualiza las tablas automáticamente
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "false"
+    ports:
+      - "8080:8080"
+    networks:
+      - coachsports-network
+    depends_on:
+      db:
+        # El backend solo arranca cuando Postgres pasa el healthcheck
+        condition: service_healthy
+
+  # ----------------------------------------------------------
+  # FRONTEND — React + Vite → Nginx
+  # ----------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend/gym-react
+      dockerfile: Dockerfile.prod
+    container_name: coachsports-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    networks:
+      - coachsports-network
+    depends_on:
+      - backend
+
+# ----------------------------------------------------------
+# VOLÚMENES — Persistencia de datos
+# ----------------------------------------------------------
+volumes:
+  postgres_data:
+    name: coachsports-postgres-data
+
+# ----------------------------------------------------------
+# REDES — Red interna entre contenedores
+# ----------------------------------------------------------
+networks:
+  coachsports-network:
+    name: coachsports-network
+    driver: bridge

@@ -1,14 +1,14 @@
 export const initialMembers = [
-  { id: "1", name: "Mateo Rodríguez", email: "mateo.rod@fitness.com", plan: "VIP Coach", status: "Active", joinDate: "2025-03-12"},
-  { id: "2", name: "Sofía Martínez", email: "sofia.m@sport.com", plan: "Gold Sport", status: "Active", joinDate: "2025-06-19"},
-  { id: "3", name: "Lucía Pérez", email: "lucia.perez@gym.com", plan: "Basic", status: "Active", joinDate: "2024-11-05"},
-  { id: "4", name: "Santiago Gomez", email: "santi.gomez@health.com", plan: "Gold Sport", status: "Active", joinDate: "2025-01-20"},
-  { id: "5", name: "Valentina Diaz", email: "vale.diaz@fitness.com", plan: "Platinum Elite", status: "Inactive", joinDate: "2025-07-02"},
-  { id: "6", name: "Ignacio Silva", email: "nacho.silva@sport.com", plan: "Basic", status: "Inactive", joinDate: "2024-05-15"},
-  { id: "7", name: "Camila Fernandez", email: "cami.f@fitness.com", plan: "VIP Coach", status: "Inactive", joinDate: "2025-04-10"},
-  { id: "8", name: "Bautista Lopez", email: "bauti.l@gym.com", plan: "Basic", status: "Inactive", joinDate: "2025-08-01"},
-  { id: "9", name: "Nicolás Ruiz", email: "nico.ruiz@fitness.com", plan: "Basic", status: "Inactive", joinDate: "2025-02-14"},
-  { id: "10", name: "Florencia Costa", email: "flor.c@sport.com", plan: "Gold Sport", status: "Inactive", joinDate: "2025-05-22"},
-  { id: "11", name: "Agustín Benítez", email: "agus.b@gym.com", plan: "VIP Coach", status: "Inactive", joinDate: "2025-06-11"},
-  { id: "12", name: "Martina Sosa", email: "marti.sosa@fitness.com", plan: "Platinum Elite", status: "Inactive", joinDate: "2025-08-10"}
+  { id: "1", firstName: "Mateo", lastName: "Rodríguez", name: "Mateo Rodríguez", email: "mateo.rod@fitness.com", dni: "40123456", phone: "+54 9 11 2345-6789", address: "Av. Corrientes 1234, CABA", subscription: "VIP Coach", plan: "VIP Coach", status: "Active", joinedDate: "2025-03-12", joinDate: "2025-03-12" },
+  { id: "2", firstName: "Sofía", lastName: "Martínez", name: "Sofía Martínez", email: "sofia.m@sport.com", dni: "38987654", phone: "+54 9 11 3456-7890", address: "Calle Falsa 123, CABA", subscription: "Gold Sport", plan: "Gold Sport", status: "Active", joinedDate: "2025-06-19", joinDate: "2025-06-19" },
+  { id: "3", firstName: "Lucía", lastName: "Pérez", name: "Lucía Pérez", email: "lucia.perez@gym.com", dni: "42345678", phone: "+54 9 11 4567-8901", address: "Santa Fe 2450, CABA", subscription: "Basic", plan: "Basic", status: "Active", joinedDate: "2024-11-05", joinDate: "2024-11-05" },
+  { id: "4", firstName: "Santiago", lastName: "Gomez", name: "Santiago Gomez", email: "santi.gomez@health.com", dni: "39876543", phone: "+54 9 11 5678-9012", address: "Belgrano 890, CABA", subscription: "Gold Sport", plan: "Gold Sport", status: "Active", joinedDate: "2025-01-20", joinDate: "2025-01-20" },
+  { id: "5", firstName: "Valentina", lastName: "Diaz", name: "Valentina Diaz", email: "vale.diaz@fitness.com", dni: "41234567", phone: "+54 9 11 6789-0123", address: "Palermo Soho 456, CABA", subscription: "Platinum Elite", plan: "Platinum Elite", status: "Inactive", joinedDate: "2025-07-02", joinDate: "2025-07-02" },
+  { id: "6", firstName: "Ignacio", lastName: "Silva", name: "Ignacio Silva", email: "nacho.silva@sport.com", dni: "37654321", phone: "+54 9 11 7890-1234", address: "Cabildo 3200, CABA", subscription: "Basic", plan: "Basic", status: "Inactive", joinedDate: "2024-05-15", joinDate: "2024-05-15" },
+  { id: "7", firstName: "Camila", lastName: "Fernandez", name: "Camila Fernandez", email: "cami.f@fitness.com", dni: "43123456", phone: "+54 9 11 8901-2345", address: "Alvear 1500, CABA", subscription: "VIP Coach", plan: "VIP Coach", status: "Inactive", joinedDate: "2025-04-10", joinDate: "2025-04-10" },
+  { id: "8", firstName: "Bautista", lastName: "Lopez", name: "Bautista Lopez", email: "bauti.l@gym.com", dni: "44567890", phone: "+54 9 11 9012-3456", address: "Rivadavia 4300, CABA", subscription: "Basic", plan: "Basic", status: "Inactive", joinedDate: "2025-08-01", joinDate: "2025-08-01" },
+  { id: "9", firstName: "Nicolás", lastName: "Ruiz", name: "Nicolás Ruiz", email: "nico.ruiz@fitness.com", dni: "36543210", phone: "+54 9 11 1122-3344", address: "Las Heras 2100, CABA", subscription: "Basic", plan: "Basic", status: "Inactive", joinedDate: "2025-02-14", joinDate: "2025-02-14" },
+  { id: "10", firstName: "Florencia", lastName: "Costa", name: "Florencia Costa", email: "flor.c@sport.com", dni: "40876543", phone: "+54 9 11 2233-4455", address: "Callao 780, CABA", subscription: "Gold Sport", plan: "Gold Sport", status: "Inactive", joinedDate: "2025-05-22", joinDate: "2025-05-22" },
+  { id: "11", firstName: "Agustín", lastName: "Benítez", name: "Agustín Benítez", email: "agus.b@gym.com", dni: "41987654", phone: "+54 9 11 3344-5566", address: "Pueyrredón 1120, CABA", subscription: "VIP Coach", plan: "VIP Coach", status: "Inactive", joinedDate: "2025-06-11", joinDate: "2025-06-11" },
+  { id: "12", firstName: "Martina", lastName: "Sosa", name: "Martina Sosa", email: "marti.sosa@fitness.com", dni: "42876543", phone: "+54 9 11 4455-6677", address: "Scalabrini Ortiz 950, CABA", subscription: "Platinum Elite", plan: "Platinum Elite", status: "Inactive", joinedDate: "2025-08-10", joinDate: "2025-08-10" }
 ];

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "./Button";
 import { initialPlans } from "../../data/plansData";
 
@@ -8,7 +8,14 @@ export default function EditMemberModal({
   onConfirm,
   member,
 }) {
-  const [formData, setFormData] = useState({ name: member?.name || "", email: member?.email || "", plan: member?.plan || "" });
+  const [formData, setFormData] = useState({
+    firstName: member?.firstName || "",
+    lastName: member?.lastName || "",
+    email: member?.email || "",
+    dni: member?.dni || "",
+    phone: member?.phone || "",
+    plan: member?.subscription || member?.plan || "",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,14 +56,28 @@ export default function EditMemberModal({
           <div className="grid gap-4 grid-cols-2 py-4 md:py-6">
             <div>
               <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
-                Full Name
+                Nombre
               </label>
               <input
                 type="text"
-                name="name"
-                value={formData.name}
+                name="firstName"
+                value={formData.firstName}
                 onChange={handleChange}
-                placeholder="Ej. Jennifer Lopez"
+                placeholder="Ej. Jennifer"
+                className="w-full bg-[#040a17] border border-[rgba(0,191,255,0.15)] rounded-lg px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-blue"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
+                Apellido
+              </label>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Ej. Lopez"
                 className="w-full bg-[#040a17] border border-[rgba(0,191,255,0.15)] rounded-lg px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-blue"
                 required
               />
@@ -78,7 +99,35 @@ export default function EditMemberModal({
 
             <div>
               <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
-                Plan
+                DNI
+              </label>
+              <input
+                type="text"
+                name="dni"
+                value={formData.dni}
+                onChange={handleChange}
+                placeholder="12345678"
+                className="w-full bg-[#040a17] border border-[rgba(0,191,255,0.15)] rounded-lg px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-blue"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
+                Teléfono
+              </label>
+              <input
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="+54 9 11 ..."
+                className="w-full bg-[#040a17] border border-[rgba(0,191,255,0.15)] rounded-lg px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-blue"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
+                Suscripción / Plan
               </label>
               <select
                 name="plan"
@@ -99,7 +148,7 @@ export default function EditMemberModal({
               Cancelar
             </Button>
             <Button type="submit" variant="brand">
-              Registrar
+              Guardar cambios
             </Button>
           </div>
         </form>

@@ -42,8 +42,12 @@ export default function Members() {
 
   const handleAddMember = async (formData) => {
     const newMember = await memberService.create({
-      name: formData.name,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
       email: formData.email,
+      dni: formData.dni,
+      phone: formData.phone,
+      subscription: formData.plan,
       plan: formData.plan,
       status: "Active",
     });
@@ -71,8 +75,9 @@ export default function Members() {
   };
 
   const filteredMembers = members.filter((member) => {
+    const fullName = `${member.firstName ?? ""} ${member.lastName ?? ""}`.toLowerCase();
     const matchesSearch =
-      member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      fullName.includes(searchTerm.toLowerCase()) ||
       member.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       String(member.id).toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus =
@@ -119,7 +124,7 @@ export default function Members() {
 
       <DeleteModal
         isOpen={Boolean(memberToDelete)}
-        memberName={memberToDelete?.name}
+        memberName={memberToDelete ? `${memberToDelete.firstName ?? ""} ${memberToDelete.lastName ?? ""}`.trim() : ""}
         onClose={() => setMemberToDelete(null)}
         onConfirm={handleConfirmDelete}
       />
@@ -197,7 +202,7 @@ export default function Members() {
                       {/* Miembro */}
                       <td className="px-6 py-4">
                         <div className="text-center text-gray-200">
-                          {member.name}
+                          {`${member.firstName ?? ""} ${member.lastName ?? ""}`.trim()}
                         </div>
                       </td>
 

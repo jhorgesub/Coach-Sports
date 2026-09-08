@@ -2,12 +2,16 @@ export default function ViewDetailsMemberModal({ isOpen, onClose, member }) {
   if (!isOpen || !member) return null;
 
   const isActive = member.status === "Active";
+  const fullName = `${member.firstName ?? ""} ${member.lastName ?? ""}`.trim();
 
   const fields = [
     { label: "ID", value: `#${member.id}` },
-    { label: "Email", value: member.email },
-    { label: "Plan", value: member.plan },
-    { label: "Fecha de Ingreso", value: member.joinDate },
+    { label: "DNI", value: member.dni || "-" },
+    { label: "Email", value: member.email || "-" },
+    { label: "Teléfono", value: member.phone || "-" },
+    { label: "Dirección", value: member.address || "-" },
+    { label: "Suscripción", value: member.subscriptionName || member.subscription || member.plan || "-" },
+    { label: "Fecha de Ingreso", value: member.joinedDate || member.joinDate || "-" },
   ];
 
   return (
@@ -28,9 +32,9 @@ export default function ViewDetailsMemberModal({ isOpen, onClose, member }) {
         {/* Avatar + Nombre + Status */}
         <div className="flex flex-col items-center gap-2 pb-5 border-b border-[rgba(0,191,255,0.1)]">
           <div className="w-16 h-16 rounded-full bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-2xl font-bold text-sky-400">
-            {member.name.charAt(0)}
+            {member.firstName?.charAt(0).toUpperCase() ?? "?"}
           </div>
-          <h3 className="text-lg font-semibold text-gray-100">{member.name}</h3>
+          <h3 className="text-lg font-semibold text-gray-100">{fullName || "-"}</h3>
           <span
             className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
               isActive

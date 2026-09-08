@@ -2,7 +2,6 @@ import Button from "./Button";
 import { useState } from "react";
 import { initialPlans } from "../../data/plansData";
 import AddMemberModal from "./AddMemberModal";
-import EditMemberModal from "./EditMemberModal";
 
 export default function FormModal({
   isOpen,
@@ -11,8 +10,11 @@ export default function FormModal({
   title = "",
 }) {
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
+    dni: "",
+    phone: "",
     plan: initialPlans[0]?.name || "",
   });
 
@@ -31,8 +33,11 @@ export default function FormModal({
     }
     // Reiniciar formulario
     setFormData({
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
+      dni: "",
+      phone: "",
       plan: initialPlans[0]?.name || "",
     });
     onClose();
@@ -45,14 +50,28 @@ export default function FormModal({
         <div className="grid gap-4 grid-cols-2 py-4 md:py-6">
           <div>
             <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
-              Full Name
+              Nombre
             </label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="firstName"
+              value={formData.firstName}
               onChange={handleChange}
-              placeholder="Ej. Jennifer Lopez"
+              placeholder="Ej. Jennifer"
+              className="w-full bg-[#040a17] border border-[rgba(0,191,255,0.15)] rounded-lg px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-blue"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
+              Apellido
+            </label>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Ej. Lopez"
               className="w-full bg-[#040a17] border border-[rgba(0,191,255,0.15)] rounded-lg px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-blue"
               required
             />
@@ -74,7 +93,35 @@ export default function FormModal({
 
           <div>
             <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
-              Plan
+              DNI
+            </label>
+            <input
+              type="text"
+              name="dni"
+              value={formData.dni}
+              onChange={handleChange}
+              placeholder="12345678"
+              className="w-full bg-[#040a17] border border-[rgba(0,191,255,0.15)] rounded-lg px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-blue"
+            />
+          </div>
+
+          <div>
+            <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
+              Teléfono
+            </label>
+            <input
+              type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="+54 9 11 ..."
+              className="w-full bg-[#040a17] border border-[rgba(0,191,255,0.15)] rounded-lg px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-brand-blue"
+            />
+          </div>
+
+          <div>
+            <label className="block text-[10px] text-gray-400 uppercase font-bold mb-1.5">
+              Suscripción / Plan
             </label>
             <select
               name="plan"

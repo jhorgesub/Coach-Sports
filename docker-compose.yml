@@ -1,0 +1,95 @@
+# ============================================================
+# Docker Compose — DESARROLLO con Hot-Reload
+# ============================================================
+# Uso:
+#   docker compose -f docker-compose.dev.yml up --build
+#
+# Diferencias con docker-compose.yml (producción):
+#   - Frontend corre con "npm run dev" (Vite dev server)
+#   - El código fuente está montado como volumen → hot-reload
+#   - Sin Nginx (no hace falta para desarrollo)
+# ============================================================
+
+services:
+
+  # ----------------------------------------------------------
+  # BASE DE DATOS — PostgreSQL (igual que en producción)
+  # ----------------------------------------------------------
+  db:
+    image: postgres:17-alpine
+    container_name: coachsports-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - coachsports-dev-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  # ----------------------------------------------------------
+  # BACKEND — Spring Boot
+  # ----------------------------------------------------------
+  backend:
+    build:
+      context: ./backend/gym-app
+      dockerfile: Dockerfile
+    container_name: coachsports-backend-dev
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+    ports:
+      - "8080:8080"
+    networks:
+      - coachsports-dev-network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ----------------------------------------------------------
+  # FRONTEND — React + Vite DEV SERVER (con hot-reload)
+  # ----------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend/gym-react
+      dockerfile: Dockerfile
+    container_name: coachsports-frontend-dev
+    restart: unless-stopped
+    volumes:
+      # Monta el código fuente local dentro del contenedor.
+      # Cuando guardás un archivo en VS Code, Vite lo detecta
+      # y recarga el browser automáticamente.
+      - ./frontend/gym-react:/app
+
+      # Este truco es importante: evita que el volumen anterior
+      # sobreescriba la carpeta node_modules que se instaló
+      # en el contenedor durante el build del Dockerfile.dev
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    networks:
+      - coachsports-dev-network
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data_dev:
+    name: coachsports-postgres-data-dev
+
+networks:
+  coachsports-dev-network:
+    name: coachsports-dev-network
+    driver: bridge

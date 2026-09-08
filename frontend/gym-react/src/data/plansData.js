@@ -4,3 +4,6 @@ export const initialPlans = [
   { id: "P003", name: "VIP Coach", price: 79.99, billing: "monthly", membersCount: 58, features: ["Full access 24/7", "Personalized Coach plan", "Towel service & SPA", "Unlimited group classes"] },
   { id: "P004", name: "Platinum Elite", price: 119.99, billing: "monthly", membersCount: 28, features: ["VIP Coach features", "1-on-1 private training daily", "Dietitian consultations", "Gym Merch kit included"] }
 ];
+
+export const initialSubscriptions = initialPlans;
+
